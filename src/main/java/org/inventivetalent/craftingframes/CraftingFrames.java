@@ -20,6 +20,7 @@ import org.bukkit.util.EulerAngle;
 import org.inventivetalent.gson.JsonBuilder;
 import org.inventivetalent.itembuilder.ItemBuilder;
 import org.inventivetalent.recipebuilder.ShapedRecipeBuilder;
+import org.mcstats.MetricsLite;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -40,6 +41,14 @@ public class CraftingFrames extends JavaPlugin implements Listener {
 
 		new ShapedRecipeBuilder().fromConfig(getConfig().getConfigurationSection("recipe.craftingFrame")).register();
 		craftingFrameItem = new ItemBuilder().fromConfig(getConfig().getConfigurationSection("recipe.craftingFrame.result")).build();
+
+		try {
+			MetricsLite metrics = new MetricsLite(this);
+			if (metrics.start()) {
+				getLogger().info("Metrics started");
+			}
+		} catch (Exception e) {
+		}
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR,
