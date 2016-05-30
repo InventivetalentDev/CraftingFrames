@@ -1,0 +1,4 @@
+name: CraftingFrames
+main: org.inventivetalent.craftingframes.CraftingFrames
+author: inventivetalent
+version: ${project.version}

@@ -1,0 +1,15 @@
+recipe:
+  craftingFrame:
+    result:
+      type: "ITEM_FRAME"
+      meta:
+        display: "&fCrafting Frame"
+    shape:
+      - "sss"
+      - "scs"
+      - "sss"
+    ingredients:
+      s:
+        type: "STICK"
+      c:
+        type: "WORKBENCH"
