@@ -72,7 +72,7 @@ public class CraftingFrames extends JavaPlugin implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR,
 				  ignoreCancelled = true)
-	public void on(HangingBreakEvent event) {
+	public void on(final HangingBreakEvent event) {
 		if (event.getEntity().getType() == EntityType.ITEM_FRAME) {
 			if (event.getEntity().hasMetadata("Crafting_Frame")) {
 				event.getEntity().removeMetadata("Crafting_Frame", this);
@@ -86,6 +86,22 @@ public class CraftingFrames extends JavaPlugin implements Listener {
 						}
 					}
 				}
+				// Workaround to replace the dropped item
+				Bukkit.getScheduler().runTaskLater(this, new Runnable() {
+					@Override
+					public void run() {
+						for (Entity entity : event.getEntity().getNearbyEntities(2, 2, 2)) {
+							if (entity instanceof Item) {
+								Item item = (Item) entity;
+								if (item.getItemStack().getType() == Material.ITEM_FRAME) {
+									if (item.getPickupDelay() >= 8) {// The delay should be 10 when dropped, but let's give it a bit more time
+										item.setItemStack(craftingFrameItem.clone());
+									}
+								}
+							}
+						}
+					}
+				}, 1);
 			}
 		}
 	}
