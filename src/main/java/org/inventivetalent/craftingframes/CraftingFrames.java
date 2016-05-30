@@ -56,7 +56,7 @@ public class CraftingFrames extends JavaPlugin implements Listener {
 				armorStand.setVisible(false);
 				armorStand.setHeadPose(new EulerAngle(Math.toRadians(90), Math.toRadians((90 * (event.getEntity().getFacing().ordinal() + 1)) + 90), 0));
 				armorStand.setHelmet(new ItemStack(Material.WORKBENCH));
-				armorStand.setCustomName("CraftingFrame-"+event.getEntity().getFacing()+"-"+event.getEntity().getLocation().getBlockX()+"-"+event.getEntity().getLocation().getBlockY()+"-"+event.getEntity().getLocation().getBlockZ());
+				armorStand.setCustomName("CraftingFrame-" + event.getEntity().getFacing() + "-" + event.getEntity().getLocation().getBlockX() + "-" + event.getEntity().getLocation().getBlockY() + "-" + event.getEntity().getLocation().getBlockZ());
 			}
 		}
 	}
@@ -72,7 +72,7 @@ public class CraftingFrames extends JavaPlugin implements Listener {
 
 				for (Entity entity : event.getEntity().getNearbyEntities(.75, 1.75, .75)) {
 					if (entity.getType() == EntityType.ARMOR_STAND) {
-						if (("CraftingFrame-"+event.getEntity().getFacing()+"-"+event.getEntity().getLocation().getBlockX()+"-"+event.getEntity().getLocation().getBlockY()+"-"+event.getEntity().getLocation().getBlockZ()).equals(entity.getCustomName())) {
+						if (("CraftingFrame-" + event.getEntity().getFacing() + "-" + event.getEntity().getLocation().getBlockX() + "-" + event.getEntity().getLocation().getBlockY() + "-" + event.getEntity().getLocation().getBlockZ()).equals(entity.getCustomName())) {
 							entity.remove();
 						}
 					}
@@ -85,6 +85,8 @@ public class CraftingFrames extends JavaPlugin implements Listener {
 				  ignoreCancelled = true)
 	public void on(PlayerInteractEntityEvent event) {
 		if (event.getRightClicked().getType() == EntityType.ITEM_FRAME) {
+			if (!event.getPlayer().hasPermission("craftingframes.use")) { return; }
+
 			ItemFrame itemFrame = (ItemFrame) event.getRightClicked();
 			if (itemFrame.getItem() != null && itemFrame.getItem().getType() != Material.AIR && itemFrame.getItem().getAmount() > 0) {
 				boolean isCraftingFrame = itemFrame.hasMetadata("Crafting_Frame");
