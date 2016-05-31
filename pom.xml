@@ -6,7 +6,7 @@
 
     <groupId>org.inventivetalent</groupId>
     <artifactId>craftingframes</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <name>CraftingFrames</name>
 
     <build>

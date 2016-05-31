@@ -177,6 +177,12 @@ public class CraftingFrames extends JavaPlugin implements Listener {
 							return;
 						}
 
+						ItemStack[] contentCopy = inventory.getContents();
+						int[] amounts = new int[contentCopy.length];
+						for (int i = 0; i < amounts.length; i++) {
+							if (contentCopy[i] == null) { continue; }
+							amounts[i] = contentCopy[i].getAmount();
+						}
 						for (int i = 0; i < inventory.getSize(); i++) {
 							for (Recipe recipe : Bukkit.getRecipesFor(itemFrame.getItem())) {
 								List<ItemStack> ingredients = new ArrayList<>();
@@ -196,7 +202,10 @@ public class CraftingFrames extends JavaPlugin implements Listener {
 									}
 									int first = first(inventory, ingredient.getType(), ingredient.getData());
 									if (first >= 0) {
-										matchCounter++;
+										if (amounts[first] >= ingredient.getAmount()) {
+											matchCounter++;
+											amounts[first] -= ingredient.getAmount();
+										}
 									}
 								}
 								if (matchCounter < ingredients.size()) { continue; }
