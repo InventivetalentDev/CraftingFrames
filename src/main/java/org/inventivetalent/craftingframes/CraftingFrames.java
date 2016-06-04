@@ -213,11 +213,7 @@ public class CraftingFrames extends JavaPlugin implements Listener {
 									if (ingredient == null) {
 										continue;
 									}
-									int first = first(inventory, ingredient.getType(), ingredient.getData(), ingredient.getAmount(), amounts);
-									if (first >= 0) {
-										ItemStack itemStack = inventory.getItem(first);
-										removeAmount(inventory, itemStack, ingredient.getAmount());
-									}
+									removeAmount(inventory, ingredient, ingredient.getAmount());
 								}
 								Item item = itemFrame.getWorld().dropItemNaturally(dropLocation, recipe.getResult());
 								item.setPickupDelay(0);
@@ -245,7 +241,7 @@ public class CraftingFrames extends JavaPlugin implements Listener {
 	public void removeAmount(Inventory inventory, ItemStack itemStack, int amount) {
 		for (int i = 0; i < inventory.getSize(); i++) {
 			ItemStack slotItem = inventory.getItem(i);
-			if (slotItem != null && slotItem.isSimilar(itemStack)) {
+			if (slotItem != null && itemStack.getType() == slotItem.getType() && (itemStack.getData().equals(slotItem.getData()) || itemStack.getData().getData() == -1)) {
 				if (amount >= slotItem.getAmount()) {
 					amount -= slotItem.getAmount();
 					inventory.setItem(i, null);
