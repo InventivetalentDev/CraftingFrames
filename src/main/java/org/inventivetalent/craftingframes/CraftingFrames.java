@@ -200,7 +200,7 @@ public class CraftingFrames extends JavaPlugin implements Listener {
 										matchCounter++;
 										continue;
 									}
-									int first = first(inventory, ingredient.getType(), ingredient.getData());
+									int first = first(inventory, ingredient.getType(), ingredient.getData(), ingredient.getAmount(), amounts);
 									if (first >= 0) {
 										if (amounts[first] >= ingredient.getAmount()) {
 											matchCounter++;
@@ -213,7 +213,7 @@ public class CraftingFrames extends JavaPlugin implements Listener {
 									if (ingredient == null) {
 										continue;
 									}
-									int first = first(inventory, ingredient.getType(), ingredient.getData());
+									int first = first(inventory, ingredient.getType(), ingredient.getData(), ingredient.getAmount(), amounts);
 									if (first >= 0) {
 										ItemStack itemStack = inventory.getItem(first);
 										removeAmount(inventory, itemStack, ingredient.getAmount());
@@ -259,10 +259,10 @@ public class CraftingFrames extends JavaPlugin implements Listener {
 		}
 	}
 
-	public int first(Inventory inventory, Material material, MaterialData data) {
+	public int first(Inventory inventory, Material material, MaterialData data, int minAmount, int[] altAmounts) {
 		for (int i = 0; i < inventory.getSize(); i++) {
 			ItemStack itemStack = inventory.getItem(i);
-			if (itemStack != null && itemStack.getType() == material && (itemStack.getData().equals(data) || data.getData() == -1)) {
+			if (itemStack != null && itemStack.getType() == material && (itemStack.getData().equals(data) || data.getData() == -1) && (itemStack.getAmount() >= minAmount && (altAmounts != null && altAmounts[i] >= minAmount))) {
 				return i;
 			}
 		}
